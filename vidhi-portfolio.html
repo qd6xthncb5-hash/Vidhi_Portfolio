@@ -1,0 +1,1063 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vidhi Kapsimay — Graphic Designer</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #f5f0e8;
+    --warm-white: #faf8f4;
+    --ink: #1a1510;
+    --taupe: #8c7d6e;
+    --rust: #b85c38;
+    --gold: #c9a84c;
+    --light-taupe: #d4c8bb;
+    --sand: #e8dfd0;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--cream);
+    color: var(--ink);
+    font-family: 'DM Mono', monospace;
+    font-weight: 300;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* Custom cursor */
+  .cursor {
+    width: 10px; height: 10px;
+    background: var(--rust);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: transform 0.1s ease, width 0.3s, height 0.3s, background 0.3s;
+  }
+  .cursor-ring {
+    width: 36px; height: 36px;
+    border: 1px solid var(--rust);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9998;
+    transform: translate(-50%, -50%);
+    transition: transform 0.18s ease, width 0.3s, height 0.3s, opacity 0.3s;
+    opacity: 0.6;
+  }
+  body:hover .cursor { opacity: 1; }
+
+  /* NOISE TEXTURE OVERLAY */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0.4;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 28px 60px;
+    z-index: 100;
+    mix-blend-mode: multiply;
+  }
+  .nav-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem;
+    font-weight: 400;
+    letter-spacing: 0.15em;
+    color: var(--ink);
+    text-decoration: none;
+  }
+  .nav-links { display: flex; gap: 40px; }
+  .nav-links a {
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--taupe);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+  .nav-links a:hover { color: var(--rust); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-left {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 0 60px 80px;
+    position: relative;
+    z-index: 2;
+  }
+  .hero-eyebrow {
+    font-size: 0.6rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--rust);
+    margin-bottom: 24px;
+    opacity: 0;
+    animation: fadeUp 0.9s 0.3s ease forwards;
+  }
+  .hero-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(4rem, 7vw, 7rem);
+    font-weight: 300;
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    opacity: 0;
+    animation: fadeUp 1s 0.5s ease forwards;
+  }
+  .hero-name em {
+    font-style: italic;
+    color: var(--rust);
+  }
+  .hero-tagline {
+    margin-top: 32px;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    color: var(--taupe);
+    line-height: 1.8;
+    max-width: 320px;
+    opacity: 0;
+    animation: fadeUp 1s 0.7s ease forwards;
+  }
+  .hero-cta {
+    margin-top: 48px;
+    display: flex; gap: 24px; align-items: center;
+    opacity: 0;
+    animation: fadeUp 1s 0.9s ease forwards;
+  }
+  .btn-primary {
+    display: inline-block;
+    padding: 14px 36px;
+    background: var(--ink);
+    color: var(--cream);
+    text-decoration: none;
+    font-size: 0.6rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    transition: background 0.3s, color 0.3s;
+  }
+  .btn-primary:hover { background: var(--rust); }
+  .btn-ghost {
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--taupe);
+    text-decoration: none;
+    border-bottom: 1px solid var(--light-taupe);
+    padding-bottom: 2px;
+    transition: color 0.3s, border-color 0.3s;
+  }
+  .btn-ghost:hover { color: var(--rust); border-color: var(--rust); }
+
+  .hero-right {
+    position: relative;
+    overflow: hidden;
+    background: var(--sand);
+  }
+  .hero-right::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, var(--sand) 0%, var(--light-taupe) 100%);
+  }
+  .hero-decor {
+    position: absolute;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(10rem, 18vw, 18rem);
+    font-weight: 300;
+    font-style: italic;
+    color: rgba(26,21,16,0.04);
+    line-height: 1;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    white-space: nowrap;
+    pointer-events: none;
+    z-index: 1;
+  }
+  .hero-profile-img {
+    position: absolute;
+    width: 260px; height: 340px;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    overflow: hidden;
+    background: var(--light-taupe);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .hero-profile-img img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    animation: fadeIn 1.2s 1s ease forwards;
+  }
+  .profile-placeholder {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 4rem;
+    font-weight: 300;
+    color: var(--taupe);
+    font-style: italic;
+  }
+  .hero-scroll {
+    position: absolute;
+    bottom: 40px; right: 40px;
+    display: flex; flex-direction: column; align-items: center; gap: 12px;
+    font-size: 0.55rem; letter-spacing: 0.25em; text-transform: uppercase;
+    color: var(--taupe);
+    opacity: 0;
+    animation: fadeIn 1s 1.5s ease forwards;
+    z-index: 3;
+  }
+  .scroll-line {
+    width: 1px; height: 50px;
+    background: linear-gradient(to bottom, var(--taupe), transparent);
+    animation: scrollPulse 2s infinite;
+  }
+
+  /* MARQUEE */
+  .marquee-section {
+    padding: 20px 0;
+    background: var(--ink);
+    overflow: hidden;
+    position: relative;
+  }
+  .marquee-track {
+    display: flex; gap: 60px;
+    width: max-content;
+    animation: marquee 20s linear infinite;
+  }
+  .marquee-item {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem;
+    font-style: italic;
+    color: var(--cream);
+    white-space: nowrap;
+    opacity: 0.7;
+  }
+  .marquee-dot {
+    color: var(--rust);
+    font-style: normal;
+    font-size: 0.6rem;
+  }
+
+  /* SECTIONS common */
+  section { position: relative; z-index: 1; }
+
+  .section-label {
+    font-size: 0.55rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--rust);
+    margin-bottom: 16px;
+  }
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.5rem, 4vw, 4rem);
+    font-weight: 300;
+    line-height: 1.1;
+    color: var(--ink);
+  }
+
+  /* ABOUT */
+  .about {
+    padding: 120px 60px;
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 100px;
+    align-items: start;
+  }
+  .about-left { position: sticky; top: 120px; }
+  .about-stats {
+    margin-top: 60px;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 40px;
+  }
+  .stat-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3rem; font-weight: 300;
+    color: var(--rust); line-height: 1;
+  }
+  .stat-label {
+    font-size: 0.6rem; letter-spacing: 0.15em;
+    text-transform: uppercase; color: var(--taupe);
+    margin-top: 6px;
+  }
+  .about-body p {
+    font-size: 0.85rem;
+    line-height: 2;
+    color: var(--taupe);
+    margin-bottom: 24px;
+  }
+  .about-body p strong {
+    color: var(--ink);
+    font-weight: 400;
+  }
+
+  /* SKILLS */
+  .skills-section {
+    padding: 80px 60px;
+    background: var(--warm-white);
+    border-top: 1px solid var(--light-taupe);
+    border-bottom: 1px solid var(--light-taupe);
+  }
+  .skills-grid {
+    margin-top: 60px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    border: 1px solid var(--light-taupe);
+  }
+  .skill-category {
+    padding: 40px;
+    border-right: 1px solid var(--light-taupe);
+  }
+  .skill-category:last-child { border-right: none; }
+  .skill-cat-title {
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--rust);
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--light-taupe);
+  }
+  .skill-tags { display: flex; flex-wrap: wrap; gap: 10px; }
+  .skill-tag {
+    font-size: 0.65rem;
+    letter-spacing: 0.05em;
+    padding: 6px 14px;
+    border: 1px solid var(--light-taupe);
+    color: var(--taupe);
+    transition: all 0.3s;
+    background: transparent;
+  }
+  .skill-tag:hover {
+    border-color: var(--rust);
+    color: var(--rust);
+    background: rgba(184,92,56,0.05);
+  }
+
+  /* PORTFOLIO */
+  .portfolio {
+    padding: 120px 60px;
+  }
+  .portfolio-header {
+    display: flex; justify-content: space-between; align-items: flex-end;
+    margin-bottom: 60px;
+  }
+  .portfolio-link {
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--taupe);
+    text-decoration: none;
+    border-bottom: 1px solid var(--light-taupe);
+    padding-bottom: 2px;
+    transition: all 0.3s;
+  }
+  .portfolio-link:hover { color: var(--rust); border-color: var(--rust); }
+
+  .portfolio-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+  }
+  .portfolio-item {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 4/3;
+    background: var(--sand);
+    cursor: pointer;
+    text-decoration: none;
+    display: block;
+  }
+  .portfolio-item:nth-child(4n+1) { grid-column: span 2; aspect-ratio: 16/9; }
+  .portfolio-item img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94), filter 0.5s;
+    filter: saturate(0.85);
+  }
+  .portfolio-item:hover img {
+    transform: scale(1.08);
+    filter: saturate(1);
+  }
+  .portfolio-item-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(26,21,16,0.85) 0%, transparent 60%);
+    opacity: 0;
+    transition: opacity 0.4s;
+    display: flex; flex-direction: column;
+    justify-content: flex-end;
+    padding: 24px;
+  }
+  .portfolio-item:hover .portfolio-item-overlay { opacity: 1; }
+  .portfolio-item-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem;
+    font-weight: 400;
+    color: var(--cream);
+    line-height: 1.2;
+  }
+  .portfolio-item-cat {
+    font-size: 0.55rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-top: 6px;
+  }
+  .portfolio-item-arrow {
+    position: absolute;
+    top: 20px; right: 20px;
+    width: 36px; height: 36px;
+    border: 1px solid rgba(255,255,255,0.4);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    color: white;
+    font-size: 0.9rem;
+    opacity: 0;
+    transform: rotate(-45deg);
+    transition: opacity 0.4s, transform 0.4s;
+  }
+  .portfolio-item:hover .portfolio-item-arrow {
+    opacity: 1;
+    transform: rotate(0deg);
+  }
+
+  /* EXPERIENCE */
+  .experience {
+    padding: 120px 60px;
+    background: var(--warm-white);
+    border-top: 1px solid var(--light-taupe);
+  }
+  .exp-timeline { margin-top: 60px; }
+  .exp-item {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 40px;
+    padding: 36px 0;
+    border-bottom: 1px solid var(--light-taupe);
+    align-items: start;
+    transition: all 0.3s;
+  }
+  .exp-item:first-child { border-top: 1px solid var(--light-taupe); }
+  .exp-item:hover { padding-left: 12px; }
+  .exp-date {
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    color: var(--taupe);
+    padding-top: 4px;
+  }
+  .exp-company {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem;
+    font-weight: 400;
+    color: var(--ink);
+  }
+  .exp-role {
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--rust);
+    margin-top: 6px;
+    margin-bottom: 12px;
+  }
+  .exp-desc {
+    font-size: 0.7rem;
+    line-height: 1.9;
+    color: var(--taupe);
+  }
+
+  /* EDUCATION */
+  .education {
+    padding: 80px 60px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+    background: var(--ink);
+  }
+  .education .section-label { color: var(--gold); }
+  .education .section-title { color: var(--cream); }
+  .edu-cards { display: flex; flex-direction: column; gap: 2px; }
+  .edu-card {
+    padding: 36px 40px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    transition: all 0.3s;
+  }
+  .edu-card:hover {
+    background: rgba(255,255,255,0.07);
+    border-color: rgba(201,168,76,0.3);
+  }
+  .edu-degree {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.3rem;
+    font-weight: 400;
+    color: var(--cream);
+    line-height: 1.3;
+  }
+  .edu-school {
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-top: 8px;
+  }
+  .edu-year {
+    font-size: 0.6rem;
+    color: rgba(255,255,255,0.3);
+    margin-top: 6px;
+    letter-spacing: 0.1em;
+  }
+
+  /* CONTACT */
+  .contact {
+    padding: 120px 60px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .contact::before {
+    content: 'CONTACT';
+    position: absolute;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18vw;
+    font-weight: 300;
+    font-style: italic;
+    color: rgba(26,21,16,0.03);
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    white-space: nowrap;
+    pointer-events: none;
+  }
+  .contact .section-label { justify-content: center; display: flex; }
+  .contact .section-title { margin: 12px auto; max-width: 600px; }
+  .contact-email {
+    display: inline-block;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.5rem, 3vw, 2.5rem);
+    font-style: italic;
+    color: var(--rust);
+    text-decoration: none;
+    margin-top: 40px;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.3s;
+  }
+  .contact-email:hover { border-color: var(--rust); }
+  .contact-links {
+    display: flex; gap: 40px; justify-content: center;
+    margin-top: 48px;
+  }
+  .contact-link {
+    font-size: 0.6rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--taupe);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+  .contact-link:hover { color: var(--rust); }
+
+  /* FOOTER */
+  footer {
+    padding: 30px 60px;
+    border-top: 1px solid var(--light-taupe);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  footer span {
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    color: var(--taupe);
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  /* REVEAL on scroll */
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .reveal-delay-1 { transition-delay: 0.15s; }
+  .reveal-delay-2 { transition-delay: 0.3s; }
+  .reveal-delay-3 { transition-delay: 0.45s; }
+
+  /* Responsive */
+  @media (max-width: 900px) {
+    nav { padding: 24px 30px; }
+    .hero { grid-template-columns: 1fr; }
+    .hero-right { display: none; }
+    .hero-left { padding: 120px 30px 80px; justify-content: flex-end; min-height: 100vh; }
+    .about { grid-template-columns: 1fr; gap: 60px; padding: 80px 30px; }
+    .about-left { position: static; }
+    .skills-section { padding: 80px 30px; }
+    .skills-grid { grid-template-columns: 1fr; }
+    .skill-category { border-right: none; border-bottom: 1px solid var(--light-taupe); }
+    .portfolio { padding: 80px 30px; }
+    .portfolio-grid { grid-template-columns: 1fr 1fr; }
+    .portfolio-item:nth-child(4n+1) { grid-column: span 2; }
+    .experience { padding: 80px 30px; }
+    .exp-item { grid-template-columns: 1fr; gap: 10px; }
+    .education { grid-template-columns: 1fr; padding: 80px 30px; gap: 60px; }
+    .contact { padding: 80px 30px; }
+    footer { padding: 24px 30px; flex-direction: column; gap: 12px; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">VK</a>
+  <div class="nav-links">
+    <a href="#about">About</a>
+    <a href="#work">Work</a>
+    <a href="#experience">Experience</a>
+    <a href="#contact">Contact</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-eyebrow">Graphic Designer · Fashion Communication</div>
+    <h1 class="hero-name">Vidhi<br><em>Kapsimay</em></h1>
+    <p class="hero-tagline">Transforming ideas into compelling visual narratives through strategic design thinking — branding, editorial, print & motion.</p>
+    <div class="hero-cta">
+      <a href="#work" class="btn-primary">View Work</a>
+      <a href="#contact" class="btn-ghost">Get in Touch</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-decor">VK</div>
+    <div class="hero-profile-img">
+      <img src="https://mir-s3-cdn-cf.behance.net/user/276/e939731555964411.66774ec761fd3.jpg" alt="Vidhi Kapsimay" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+      <span class="profile-placeholder" style="display:none;">VK</span>
+    </div>
+    <div class="hero-scroll">
+      <span>Scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-section">
+  <div class="marquee-track">
+    <span class="marquee-item">Brand Identity</span><span class="marquee-dot">✦</span>
+    <span class="marquee-item">Editorial Design</span><span class="marquee-dot">✦</span>
+    <span class="marquee-item">Print Media</span><span class="marquee-dot">✦</span>
+    <span class="marquee-item">Packaging</span><span class="marquee-dot">✦</span>
+    <span class="marquee-item">Motion Graphics</span><span class="marquee-dot">✦</span>
+    <span class="marquee-item">Logo Design</span><span class="marquee-dot">✦</span>
+    <span class="marquee-item">Typography</span><span class="marquee-dot">✦</span>
+    <span class="marquee-item">Visual Storytelling</span><span class="marquee-dot">✦</span>
+    <!-- duplicate -->
+    <span class="marquee-item">Brand Identity</span><span class="marquee-dot">✦</span>
+    <span class="marquee-item">Editorial Design</span><span class="marquee-dot">✦</span>
+    <span class="marquee-item">Print Media</span><span class="marquee-dot">✦</span>
+    <span class="marquee-item">Packaging</span><span class="marquee-dot">✦</span>
+    <span class="marquee-item">Motion Graphics</span><span class="marquee-dot">✦</span>
+    <span class="marquee-item">Logo Design</span><span class="marquee-dot">✦</span>
+    <span class="marquee-item">Typography</span><span class="marquee-dot">✦</span>
+    <span class="marquee-item">Visual Storytelling</span><span class="marquee-dot">✦</span>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="about-left reveal">
+    <div class="section-label">About</div>
+    <h2 class="section-title">Design<br><em style="font-style:italic;">Thinker.</em></h2>
+    <div class="about-stats">
+      <div>
+        <div class="stat-num">8+</div>
+        <div class="stat-label">Internships & Roles</div>
+      </div>
+      <div>
+        <div class="stat-num">12+</div>
+        <div class="stat-label">Behance Projects</div>
+      </div>
+      <div>
+        <div class="stat-num">4</div>
+        <div class="stat-label">Years at NIFT</div>
+      </div>
+      <div>
+        <div class="stat-num">89</div>
+        <div class="stat-label">Appreciations</div>
+      </div>
+    </div>
+  </div>
+  <div class="about-body">
+    <p class="reveal">Currently pursuing a <strong>Bachelor of Design in Fashion Communication</strong> at the National Institute of Fashion Technology, Bhubaneswar — with an interdisciplinary minor in IT Applications in Fashion Business.</p>
+    <p class="reveal reveal-delay-1">A creative and detail-oriented designer specialising in <strong>branding, editorial design, print media, packaging, video editing, motion</strong> and visual storytelling. Passionate about transforming ideas into compelling visual narratives through strategic design thinking.</p>
+    <p class="reveal reveal-delay-2">Experienced across diverse industries — from hospitality and food & beverage to fashion and ed-tech — bringing a versatile eye and a user-centred approach to every project. <strong>Available for freelance and full-time opportunities.</strong></p>
+    <p class="reveal reveal-delay-3">Tools of choice: <strong>Adobe Illustrator · Photoshop · InDesign · Premiere Pro · Figma · Procreate · Canva</strong></p>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section class="skills-section" id="skills">
+  <div class="section-label reveal">Capabilities</div>
+  <h2 class="section-title reveal">Skills &amp; Tools</h2>
+  <div class="skills-grid reveal reveal-delay-1">
+    <div class="skill-category">
+      <div class="skill-cat-title">Design & Creative</div>
+      <div class="skill-tags">
+        <span class="skill-tag">Brand Identity</span>
+        <span class="skill-tag">Editorial Design</span>
+        <span class="skill-tag">Print Design</span>
+        <span class="skill-tag">Packaging</span>
+        <span class="skill-tag">Logo Design</span>
+        <span class="skill-tag">Typography</span>
+        <span class="skill-tag">Digital Illustration</span>
+        <span class="skill-tag">Visual Storytelling</span>
+        <span class="skill-tag">Branding</span>
+      </div>
+    </div>
+    <div class="skill-category">
+      <div class="skill-cat-title">Technical Tools</div>
+      <div class="skill-tags">
+        <span class="skill-tag">Adobe Illustrator</span>
+        <span class="skill-tag">Adobe Photoshop</span>
+        <span class="skill-tag">Adobe InDesign</span>
+        <span class="skill-tag">Adobe Premiere Pro</span>
+        <span class="skill-tag">Figma</span>
+        <span class="skill-tag">Procreate</span>
+        <span class="skill-tag">Canva</span>
+        <span class="skill-tag">Video Editing</span>
+      </div>
+    </div>
+    <div class="skill-category">
+      <div class="skill-cat-title">Professional</div>
+      <div class="skill-tags">
+        <span class="skill-tag">Design Thinking</span>
+        <span class="skill-tag">User-Centred Design</span>
+        <span class="skill-tag">Critical Thinking</span>
+        <span class="skill-tag">Project Management</span>
+        <span class="skill-tag">Time Management</span>
+        <span class="skill-tag">Collaboration</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PORTFOLIO -->
+<section class="portfolio" id="work">
+  <div class="portfolio-header">
+    <div>
+      <div class="section-label reveal">Selected Work</div>
+      <h2 class="section-title reveal">Portfolio</h2>
+    </div>
+    <a href="https://www.behance.net/vidhikapsimay1" target="_blank" class="portfolio-link reveal">View all on Behance ↗</a>
+  </div>
+  <div class="portfolio-grid">
+
+    <a class="portfolio-item" href="https://www.behance.net/gallery/247591689/MENU-DESIGN-LMNO" target="_blank">
+      <img src="https://mir-s3-cdn-cf.behance.net/projects/404/eca3ee247591689.Y3JvcCwyODc2LDIyNTAsNjQsMA.png" alt="MENU DESIGN | LMNO" loading="lazy">
+      <div class="portfolio-item-overlay">
+        <div class="portfolio-item-title">Menu Design | LMNO</div>
+        <div class="portfolio-item-cat">Print · Editorial</div>
+      </div>
+      <div class="portfolio-item-arrow">↗</div>
+    </a>
+
+    <a class="portfolio-item" href="https://www.behance.net/gallery/247385253/AKS-FOUNDATION-CALENDAR-2026" target="_blank">
+      <img src="https://mir-s3-cdn-cf.behance.net/projects/404/efcb8b247385253.Y3JvcCwxMzA5LDEwMjQsMTY4LDA.png" alt="AKS FOUNDATION CALENDAR 2026" loading="lazy">
+      <div class="portfolio-item-overlay">
+        <div class="portfolio-item-title">AKS Foundation | Calendar 2026</div>
+        <div class="portfolio-item-cat">Editorial · Print</div>
+      </div>
+      <div class="portfolio-item-arrow">↗</div>
+    </a>
+
+    <a class="portfolio-item" href="https://www.behance.net/gallery/236449661/DESI-DIPS-BRANDING" target="_blank">
+      <img src="https://mir-s3-cdn-cf.behance.net/projects/404/506f6a236449661.Y3JvcCwyODA4LDIxOTYsMzc1LDY5.png" alt="DESI DIPS BRANDING" loading="lazy">
+      <div class="portfolio-item-overlay">
+        <div class="portfolio-item-title">Desi Dips | Branding</div>
+        <div class="portfolio-item-cat">Brand Identity · Packaging</div>
+      </div>
+      <div class="portfolio-item-arrow">↗</div>
+    </a>
+
+    <a class="portfolio-item" href="https://www.behance.net/gallery/220024621/LovCheezREBRANDING" target="_blank">
+      <img src="https://mir-s3-cdn-cf.behance.net/projects/404/b0d45a220024621.67bc55d389eab.png" alt="LovCheez Rebranding" loading="lazy">
+      <div class="portfolio-item-overlay">
+        <div class="portfolio-item-title">LovCheez | Rebranding</div>
+        <div class="portfolio-item-cat">Brand Identity</div>
+      </div>
+      <div class="portfolio-item-arrow">↗</div>
+    </a>
+
+    <a class="portfolio-item" href="https://www.behance.net/gallery/220767749/T-Shirt-ILLUSTRATIONS" target="_blank">
+      <img src="https://mir-s3-cdn-cf.behance.net/projects/404/c6377b220767749.Y3JvcCwzOTI3LDMwNzIsODcsMA.png" alt="T-Shirt Illustrations" loading="lazy">
+      <div class="portfolio-item-overlay">
+        <div class="portfolio-item-title">T-Shirt | Illustrations</div>
+        <div class="portfolio-item-cat">Digital Illustration</div>
+      </div>
+      <div class="portfolio-item-arrow">↗</div>
+    </a>
+
+    <a class="portfolio-item" href="https://www.behance.net/gallery/203696517/BLOOM-WELL-BRANDING" target="_blank">
+      <img src="https://mir-s3-cdn-cf.behance.net/projects/404/752737203696517.669bf051d2cff.png" alt="BLOOM WELL BRANDING" loading="lazy">
+      <div class="portfolio-item-overlay">
+        <div class="portfolio-item-title">Bloom Well | Branding</div>
+        <div class="portfolio-item-cat">Brand Identity · Logo</div>
+      </div>
+      <div class="portfolio-item-arrow">↗</div>
+    </a>
+
+    <a class="portfolio-item" href="https://www.behance.net/gallery/201579997/CALANDER-Traditions-Tongues" target="_blank">
+      <img src="https://mir-s3-cdn-cf.behance.net/projects/404/fa7bde201579997.667ef04eed633.png" alt="Calendar - Traditions and Tongues" loading="lazy">
+      <div class="portfolio-item-overlay">
+        <div class="portfolio-item-title">Traditions &amp; Tongues | Calendar</div>
+        <div class="portfolio-item-cat">Editorial · Print</div>
+      </div>
+      <div class="portfolio-item-arrow">↗</div>
+    </a>
+
+    <a class="portfolio-item" href="https://www.behance.net/gallery/201441257/INKED-TYPEFACE-DESIGN-" target="_blank">
+      <img src="https://mir-s3-cdn-cf.behance.net/projects/404/273f32201441257.66746e3fe002f.png" alt="INKED Typeface Design" loading="lazy">
+      <div class="portfolio-item-overlay">
+        <div class="portfolio-item-title">Inked | Typeface Design</div>
+        <div class="portfolio-item-cat">Typography</div>
+      </div>
+      <div class="portfolio-item-arrow">↗</div>
+    </a>
+
+    <a class="portfolio-item" href="https://www.behance.net/gallery/196043205/Fashion-Magazine-Layout-Design" target="_blank">
+      <img src="https://mir-s3-cdn-cf.behance.net/projects/404/df9c53196043205.Y3JvcCwxMzQyLDEwNTAsMjksMA.jpg" alt="Fashion Magazine Layout" loading="lazy">
+      <div class="portfolio-item-overlay">
+        <div class="portfolio-item-title">Fashion Magazine Layout</div>
+        <div class="portfolio-item-cat">Editorial Design</div>
+      </div>
+      <div class="portfolio-item-arrow">↗</div>
+    </a>
+
+    <a class="portfolio-item" href="https://www.behance.net/gallery/201358871/A-Vibrant-Ice-Cream-Parlour-Pamphlet-Design" target="_blank">
+      <img src="https://mir-s3-cdn-cf.behance.net/projects/404/bad6e0201358871.667eefac4ad81.png" alt="Ice Cream Parlour Pamphlet" loading="lazy">
+      <div class="portfolio-item-overlay">
+        <div class="portfolio-item-title">Ice Cream Parlour | Pamphlet</div>
+        <div class="portfolio-item-cat">Print Design</div>
+      </div>
+      <div class="portfolio-item-arrow">↗</div>
+    </a>
+
+    <a class="portfolio-item" href="https://www.behance.net/gallery/220766039/T-SHIRT-DESIGNTYPOGRAPHY" target="_blank">
+      <img src="https://mir-s3-cdn-cf.behance.net/projects/404/d2dfb5220766039.Y3JvcCwzOTI3LDMwNzIsODcsMA.png" alt="T-Shirt Typography" loading="lazy">
+      <div class="portfolio-item-overlay">
+        <div class="portfolio-item-title">T-Shirt | Typography</div>
+        <div class="portfolio-item-cat">Typography · Print</div>
+      </div>
+      <div class="portfolio-item-arrow">↗</div>
+    </a>
+
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section class="experience" id="experience">
+  <div class="section-label reveal">Career</div>
+  <h2 class="section-title reveal">Experience</h2>
+  <div class="exp-timeline">
+
+    <div class="exp-item reveal">
+      <div class="exp-date">Dec 2025 – Apr 2026</div>
+      <div>
+        <div class="exp-company">Blot Canvas</div>
+        <div class="exp-role">Graphic Designer</div>
+        <div class="exp-desc">Designed social media creatives, motion graphics, and editorial layouts. Worked on print design, video editing projects and content creation.</div>
+      </div>
+    </div>
+
+    <div class="exp-item reveal reveal-delay-1">
+      <div class="exp-date">Jun – Jul 2025</div>
+      <div>
+        <div class="exp-company">Web Anatomy</div>
+        <div class="exp-role">Graphic Design Intern</div>
+        <div class="exp-desc">Developed branding assets, editorial designs, print materials, and illustrations. Created visually engaging social media posts.</div>
+      </div>
+    </div>
+
+    <div class="exp-item reveal reveal-delay-2">
+      <div class="exp-date">Apr – May 2025</div>
+      <div>
+        <div class="exp-company">Coursevita</div>
+        <div class="exp-role">Graphic Design Intern</div>
+        <div class="exp-desc">Developed editorial layouting and thumbnails for digital learning content.</div>
+      </div>
+    </div>
+
+    <div class="exp-item reveal">
+      <div class="exp-date">Sep – Dec 2024</div>
+      <div>
+        <div class="exp-company">Futurios</div>
+        <div class="exp-role">Graphic Design Intern</div>
+        <div class="exp-desc">Designed digital posts, branding materials, and editorial layouts. Handled print designs and video editing tasks.</div>
+      </div>
+    </div>
+
+    <div class="exp-item reveal reveal-delay-1">
+      <div class="exp-date">Aug 2024</div>
+      <div>
+        <div class="exp-company">Houzee</div>
+        <div class="exp-role">Graphic Design Intern</div>
+        <div class="exp-desc">Designed engaging social media creatives aligned with brand identity.</div>
+      </div>
+    </div>
+
+    <div class="exp-item reveal reveal-delay-2">
+      <div class="exp-date">May – Jun 2024</div>
+      <div>
+        <div class="exp-company">Suta</div>
+        <div class="exp-role">Visual Merchandiser</div>
+        <div class="exp-desc">Conceptualised and executed festive-themed façade and window displays. Enhanced in-store visual storytelling.</div>
+      </div>
+    </div>
+
+    <div class="exp-item reveal">
+      <div class="exp-date">Nov – Dec 2023</div>
+      <div>
+        <div class="exp-company">The Chai Dealer</div>
+        <div class="exp-role">Graphic Design Intern</div>
+        <div class="exp-desc">Conducted brand studies and developed logo concepts. Designed brand collaterals.</div>
+      </div>
+    </div>
+
+    <div class="exp-item reveal reveal-delay-1">
+      <div class="exp-date">Jul 2023</div>
+      <div>
+        <div class="exp-company">Soul Grip</div>
+        <div class="exp-role">Freelance Designer</div>
+        <div class="exp-desc">Led brand research and identity development. Designed logo and marketing collaterals.</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section class="education" id="education">
+  <div>
+    <div class="section-label reveal">Academia</div>
+    <h2 class="section-title reveal">Education</h2>
+    <p class="reveal" style="font-size:0.75rem;line-height:1.9;color:rgba(245,240,232,0.5);margin-top:24px;max-width:340px;">Formally trained in fashion communication with a strong foundation in design principles, visual culture, and business applications.</p>
+  </div>
+  <div class="edu-cards">
+    <div class="edu-card reveal">
+      <div class="edu-degree">Bachelor of Design (B.Des)<br>Fashion Communication</div>
+      <div class="edu-school">National Institute of Fashion Technology</div>
+      <div class="edu-year">2022 – 2026 · Interdisciplinary Minor: IT Applications in Fashion Business</div>
+    </div>
+    <div class="edu-card reveal reveal-delay-1">
+      <div class="edu-degree">Secondary & Senior Secondary Education</div>
+      <div class="edu-school">Creane Memorial High School, Gaya</div>
+      <div class="edu-year">2018 – 2020</div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <div class="section-label">Available for Work</div>
+  <h2 class="section-title reveal">Let's Create<br><em style="font-style:italic;">Together.</em></h2>
+  <a href="mailto:vidhikapsimay@gmail.com" class="contact-email reveal">vidhikapsimay@gmail.com</a>
+  <div class="contact-links reveal reveal-delay-1">
+    <a href="https://www.behance.net/vidhikapsimay1" target="_blank" class="contact-link">Behance ↗</a>
+    <a href="https://www.linkedin.com/in/Vidhi-Kapsimay" target="_blank" class="contact-link">LinkedIn ↗</a>
+    <a href="tel:6200072664" class="contact-link">+91 6200072664</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span>© 2026 Vidhi Kapsimay</span>
+  <span>Graphic Designer · NIFT Bhubaneswar</span>
+  <span>Available for freelance & full-time</span>
+</footer>
+
+<script>
+  // Custom cursor
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+  document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+  function animCursor() {
+    cursor.style.left = mx + 'px'; cursor.style.top = my + 'px';
+    rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12;
+    ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+    requestAnimationFrame(animCursor);
+  }
+  animCursor();
+  document.querySelectorAll('a, button').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      cursor.style.width = '6px'; cursor.style.height = '6px';
+      ring.style.width = '54px'; ring.style.height = '54px';
+    });
+    el.addEventListener('mouseleave', () => {
+      cursor.style.width = '10px'; cursor.style.height = '10px';
+      ring.style.width = '36px'; ring.style.height = '36px';
+    });
+  });
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+  }, { threshold: 0.12 });
+  reveals.forEach(r => obs.observe(r));
+
+  // Smooth scroll
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      const t = document.querySelector(a.getAttribute('href'));
+      if (t) t.scrollIntoView({ behavior: 'smooth' });
+    });
+  });
+</script>
+</body>
+</html>
